@@ -30,8 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\" />
-    <Folder Include="Persistance\" />
     <Folder Include="Presentation\" />
   </ItemGroup>
 
