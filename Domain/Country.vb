@@ -21,6 +21,14 @@
         Me.CountDAO.Read(Me)
     End Sub
 
+    Public Function UpdateCountry() As Integer
+        Return Me.CountDAO.Update(Me)
+    End Function
+
+    Public Function DeleteCountry() As Integer
+        Return Me.CountDAO.Delete(Me)
+    End Function
+
     Public Overrides Function ToString() As String
         Return CountryName
     End Function
