@@ -16,4 +16,12 @@
     Public Function InsertCountry() As Integer
         Return Me.CountDAO.Insert(Me)
     End Function
+
+    Public Sub ReadCountry()
+        Me.CountDAO.Read(Me)
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return CountryName
+    End Function
 End Class

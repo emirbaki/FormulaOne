@@ -4,9 +4,18 @@
             Label1.Text = "Bağlandım."
         End If
 
-        Dim CountrySample As Country
+        Dim CountrySample As New Country With {
+            .CountryID = "SPA",
+            .CountryName = "Spain",
+            .CountryPopulation = "55123124"
+        }
 
-        CountrySample.
+        CountrySample.InsertCountry()
+
+        CountrySample.ReadCountry()
+
+        Label1.Text = CountrySample.CountryName
+
 
     End Sub
 End Class
