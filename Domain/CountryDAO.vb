@@ -5,5 +5,3 @@ Public Class CountryDAO
         Return DBBroker.GetBroker.Change("INSERT INTO Persons VALUES ('" & c.CountryID & "', '" & c.CountryName & "' , '" & c.CountryPopulation & "');")
     End Function
 End Class
-
-//Test

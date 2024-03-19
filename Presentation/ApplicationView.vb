@@ -4,7 +4,9 @@
             Label1.Text = "Bağlandım."
         End If
 
-        Country
+        Dim CountrySample As Country
+
+        CountrySample.
 
     End Sub
 End Class
