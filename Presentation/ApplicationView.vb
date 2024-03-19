@@ -4,7 +4,7 @@
             Label1.Text = "Bağlandım."
         End If
 
-        DBBroker.GetBroker().Read()
+        Country
 
     End Sub
 End Class
