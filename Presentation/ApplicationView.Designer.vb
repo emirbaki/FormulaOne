@@ -36,6 +36,19 @@ Partial Class ApplicationView
         TabControl1 = New TabControl()
         tab_countries = New TabPage()
         tab_drivers = New TabPage()
+        GroupBox4 = New GroupBox()
+        txt_driverSurname = New TextBox()
+        txt_driverName = New TextBox()
+        Label8 = New Label()
+        cbox_driverCountry = New ComboBox()
+        txt_driverID = New TextBox()
+        Label5 = New Label()
+        Label6 = New Label()
+        Label7 = New Label()
+        driverList = New ListBox()
+        btn_UpdateDriver = New Button()
+        btn_DeleteDriver = New Button()
+        btn_AddDriver = New Button()
         tab_teams = New TabPage()
         GroupBox2 = New GroupBox()
         txt_teamName = New TextBox()
@@ -49,11 +62,26 @@ Partial Class ApplicationView
         Button2 = New Button()
         btn_addTeam = New Button()
         tab_gps = New TabPage()
+        GroupBox3 = New GroupBox()
+        cbox_GP = New ComboBox()
+        txt_gpName = New TextBox()
+        txt_gpID = New TextBox()
+        Label2 = New Label()
+        Label3 = New Label()
+        Label4 = New Label()
+        gpList = New ListBox()
+        btn_UpdateGP = New Button()
+        btn_DeleteGP = New Button()
+        btn_AddGP = New Button()
         GroupBox1.SuspendLayout()
         TabControl1.SuspendLayout()
         tab_countries.SuspendLayout()
+        tab_drivers.SuspendLayout()
+        GroupBox4.SuspendLayout()
         tab_teams.SuspendLayout()
         GroupBox2.SuspendLayout()
+        tab_gps.SuspendLayout()
+        GroupBox3.SuspendLayout()
         SuspendLayout()
         ' 
         ' GroupBox1
@@ -167,7 +195,7 @@ Partial Class ApplicationView
         TabControl1.Location = New Point(0, 0)
         TabControl1.Name = "TabControl1"
         TabControl1.SelectedIndex = 0
-        TabControl1.Size = New Size(688, 514)
+        TabControl1.Size = New Size(688, 553)
         TabControl1.TabIndex = 2
         ' 
         ' tab_countries
@@ -176,20 +204,142 @@ Partial Class ApplicationView
         tab_countries.Location = New Point(4, 29)
         tab_countries.Name = "tab_countries"
         tab_countries.Padding = New Padding(3)
-        tab_countries.Size = New Size(680, 481)
+        tab_countries.Size = New Size(680, 520)
         tab_countries.TabIndex = 0
         tab_countries.Text = "Countries"
         tab_countries.UseVisualStyleBackColor = True
         ' 
         ' tab_drivers
         ' 
+        tab_drivers.Controls.Add(GroupBox4)
         tab_drivers.Location = New Point(4, 29)
         tab_drivers.Name = "tab_drivers"
         tab_drivers.Padding = New Padding(3)
-        tab_drivers.Size = New Size(680, 481)
+        tab_drivers.Size = New Size(680, 520)
         tab_drivers.TabIndex = 1
         tab_drivers.Text = "Drivers"
         tab_drivers.UseVisualStyleBackColor = True
+        ' 
+        ' GroupBox4
+        ' 
+        GroupBox4.Controls.Add(txt_driverSurname)
+        GroupBox4.Controls.Add(txt_driverName)
+        GroupBox4.Controls.Add(Label8)
+        GroupBox4.Controls.Add(cbox_driverCountry)
+        GroupBox4.Controls.Add(txt_driverID)
+        GroupBox4.Controls.Add(Label5)
+        GroupBox4.Controls.Add(Label6)
+        GroupBox4.Controls.Add(Label7)
+        GroupBox4.Controls.Add(driverList)
+        GroupBox4.Controls.Add(btn_UpdateDriver)
+        GroupBox4.Controls.Add(btn_DeleteDriver)
+        GroupBox4.Controls.Add(btn_AddDriver)
+        GroupBox4.Location = New Point(8, 11)
+        GroupBox4.Name = "GroupBox4"
+        GroupBox4.Size = New Size(306, 506)
+        GroupBox4.TabIndex = 3
+        GroupBox4.TabStop = False
+        GroupBox4.Text = "Drivers"
+        ' 
+        ' txt_driverSurname
+        ' 
+        txt_driverSurname.Location = New Point(175, 403)
+        txt_driverSurname.Name = "txt_driverSurname"
+        txt_driverSurname.Size = New Size(125, 27)
+        txt_driverSurname.TabIndex = 11
+        ' 
+        ' txt_driverName
+        ' 
+        txt_driverName.Location = New Point(175, 366)
+        txt_driverName.Name = "txt_driverName"
+        txt_driverName.Size = New Size(125, 27)
+        txt_driverName.TabIndex = 9
+        ' 
+        ' Label8
+        ' 
+        Label8.AutoSize = True
+        Label8.Location = New Point(6, 410)
+        Label8.Name = "Label8"
+        Label8.Size = New Size(114, 20)
+        Label8.TabIndex = 10
+        Label8.Text = "Driver Surname:"
+        ' 
+        ' cbox_driverCountry
+        ' 
+        cbox_driverCountry.FormattingEnabled = True
+        cbox_driverCountry.Location = New Point(149, 436)
+        cbox_driverCountry.Name = "cbox_driverCountry"
+        cbox_driverCountry.Size = New Size(151, 28)
+        cbox_driverCountry.TabIndex = 8
+        ' 
+        ' txt_driverID
+        ' 
+        txt_driverID.Location = New Point(175, 333)
+        txt_driverID.Name = "txt_driverID"
+        txt_driverID.Size = New Size(125, 27)
+        txt_driverID.TabIndex = 6
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(6, 439)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(104, 20)
+        Label5.TabIndex = 5
+        Label5.Text = "Driver Country"
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Location = New Point(6, 373)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(96, 20)
+        Label6.TabIndex = 4
+        Label6.Text = "Driver Name:"
+        ' 
+        ' Label7
+        ' 
+        Label7.AutoSize = True
+        Label7.Location = New Point(6, 340)
+        Label7.Name = "Label7"
+        Label7.Size = New Size(71, 20)
+        Label7.TabIndex = 2
+        Label7.Text = "Driver ID:"
+        ' 
+        ' driverList
+        ' 
+        driverList.FormattingEnabled = True
+        driverList.Location = New Point(6, 26)
+        driverList.Name = "driverList"
+        driverList.Size = New Size(294, 304)
+        driverList.TabIndex = 3
+        ' 
+        ' btn_UpdateDriver
+        ' 
+        btn_UpdateDriver.Location = New Point(206, 471)
+        btn_UpdateDriver.Name = "btn_UpdateDriver"
+        btn_UpdateDriver.Size = New Size(94, 29)
+        btn_UpdateDriver.TabIndex = 2
+        btn_UpdateDriver.Text = "Update"
+        btn_UpdateDriver.UseVisualStyleBackColor = True
+        ' 
+        ' btn_DeleteDriver
+        ' 
+        btn_DeleteDriver.Location = New Point(106, 471)
+        btn_DeleteDriver.Name = "btn_DeleteDriver"
+        btn_DeleteDriver.Size = New Size(94, 29)
+        btn_DeleteDriver.TabIndex = 1
+        btn_DeleteDriver.Text = "Delete"
+        btn_DeleteDriver.UseVisualStyleBackColor = True
+        ' 
+        ' btn_AddDriver
+        ' 
+        btn_AddDriver.Location = New Point(6, 471)
+        btn_AddDriver.Name = "btn_AddDriver"
+        btn_AddDriver.Size = New Size(94, 29)
+        btn_AddDriver.TabIndex = 0
+        btn_AddDriver.Text = "Add"
+        btn_AddDriver.UseVisualStyleBackColor = True
         ' 
         ' tab_teams
         ' 
@@ -197,7 +347,7 @@ Partial Class ApplicationView
         tab_teams.Location = New Point(4, 29)
         tab_teams.Name = "tab_teams"
         tab_teams.RightToLeft = RightToLeft.No
-        tab_teams.Size = New Size(680, 481)
+        tab_teams.Size = New Size(680, 520)
         tab_teams.TabIndex = 2
         tab_teams.Text = "Teams"
         tab_teams.UseVisualStyleBackColor = True
@@ -307,16 +457,120 @@ Partial Class ApplicationView
         ' 
         ' tab_gps
         ' 
+        tab_gps.Controls.Add(GroupBox3)
         tab_gps.Location = New Point(4, 29)
         tab_gps.Name = "tab_gps"
-        tab_gps.Size = New Size(680, 481)
+        tab_gps.Size = New Size(680, 520)
         tab_gps.TabIndex = 3
         tab_gps.Text = "GPs"
         tab_gps.UseVisualStyleBackColor = True
         ' 
+        ' GroupBox3
+        ' 
+        GroupBox3.Controls.Add(cbox_GP)
+        GroupBox3.Controls.Add(txt_gpName)
+        GroupBox3.Controls.Add(txt_gpID)
+        GroupBox3.Controls.Add(Label2)
+        GroupBox3.Controls.Add(Label3)
+        GroupBox3.Controls.Add(Label4)
+        GroupBox3.Controls.Add(gpList)
+        GroupBox3.Controls.Add(btn_UpdateGP)
+        GroupBox3.Controls.Add(btn_DeleteGP)
+        GroupBox3.Controls.Add(btn_AddGP)
+        GroupBox3.Location = New Point(8, 7)
+        GroupBox3.Name = "GroupBox3"
+        GroupBox3.Size = New Size(306, 474)
+        GroupBox3.TabIndex = 2
+        GroupBox3.TabStop = False
+        GroupBox3.Text = "GPs"
+        ' 
+        ' cbox_GP
+        ' 
+        cbox_GP.FormattingEnabled = True
+        cbox_GP.Location = New Point(149, 406)
+        cbox_GP.Name = "cbox_GP"
+        cbox_GP.Size = New Size(151, 28)
+        cbox_GP.TabIndex = 8
+        ' 
+        ' txt_gpName
+        ' 
+        txt_gpName.Location = New Point(175, 366)
+        txt_gpName.Name = "txt_gpName"
+        txt_gpName.Size = New Size(125, 27)
+        txt_gpName.TabIndex = 7
+        ' 
+        ' txt_gpID
+        ' 
+        txt_gpID.Location = New Point(175, 333)
+        txt_gpID.Name = "txt_gpID"
+        txt_gpID.Size = New Size(125, 27)
+        txt_gpID.TabIndex = 6
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(6, 406)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(82, 20)
+        Label2.TabIndex = 5
+        Label2.Text = "GP Country"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(6, 373)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(74, 20)
+        Label3.TabIndex = 4
+        Label3.Text = "GP Name:"
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Location = New Point(6, 340)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(49, 20)
+        Label4.TabIndex = 2
+        Label4.Text = "GP ID:"
+        ' 
+        ' gpList
+        ' 
+        gpList.FormattingEnabled = True
+        gpList.Location = New Point(6, 26)
+        gpList.Name = "gpList"
+        gpList.Size = New Size(294, 304)
+        gpList.TabIndex = 3
+        ' 
+        ' btn_UpdateGP
+        ' 
+        btn_UpdateGP.Location = New Point(206, 439)
+        btn_UpdateGP.Name = "btn_UpdateGP"
+        btn_UpdateGP.Size = New Size(94, 29)
+        btn_UpdateGP.TabIndex = 2
+        btn_UpdateGP.Text = "Update"
+        btn_UpdateGP.UseVisualStyleBackColor = True
+        ' 
+        ' btn_DeleteGP
+        ' 
+        btn_DeleteGP.Location = New Point(106, 439)
+        btn_DeleteGP.Name = "btn_DeleteGP"
+        btn_DeleteGP.Size = New Size(94, 29)
+        btn_DeleteGP.TabIndex = 1
+        btn_DeleteGP.Text = "Delete"
+        btn_DeleteGP.UseVisualStyleBackColor = True
+        ' 
+        ' btn_AddGP
+        ' 
+        btn_AddGP.Location = New Point(6, 439)
+        btn_AddGP.Name = "btn_AddGP"
+        btn_AddGP.Size = New Size(94, 29)
+        btn_AddGP.TabIndex = 0
+        btn_AddGP.Text = "Add"
+        btn_AddGP.UseVisualStyleBackColor = True
+        ' 
         ' ApplicationView
         ' 
-        AutoScaleDimensions = New SizeF(8.0F, 20.0F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(691, 549)
         Controls.Add(TabControl1)
@@ -326,9 +580,15 @@ Partial Class ApplicationView
         GroupBox1.PerformLayout()
         TabControl1.ResumeLayout(False)
         tab_countries.ResumeLayout(False)
+        tab_drivers.ResumeLayout(False)
+        GroupBox4.ResumeLayout(False)
+        GroupBox4.PerformLayout()
         tab_teams.ResumeLayout(False)
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
+        tab_gps.ResumeLayout(False)
+        GroupBox3.ResumeLayout(False)
+        GroupBox3.PerformLayout()
         ResumeLayout(False)
     End Sub
 
@@ -349,7 +609,7 @@ Partial Class ApplicationView
     Friend WithEvents tab_teams As TabPage
     Friend WithEvents tab_gps As TabPage
     Friend WithEvents GroupBox2 As GroupBox
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents txt_driverSurname As TextBox
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents txt_teamID As TextBox
     Friend WithEvents Label1 As Label
@@ -361,5 +621,29 @@ Partial Class ApplicationView
     Friend WithEvents btn_addTeam As Button
     Friend WithEvents cbox_teamCountry As ComboBox
     Friend WithEvents txt_teamName As TextBox
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents txt_gpName As TextBox
+    Friend WithEvents txt_gpID As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents gpList As ListBox
+    Friend WithEvents btn_UpdateGP As Button
+    Friend WithEvents btn_DeleteGP As Button
+    Friend WithEvents btn_AddGP As Button
+    Friend WithEvents cbox_GP As ComboBox
+    Friend WithEvents GroupBox4 As GroupBox
+    Friend WithEvents txt_driverName As TextBox
+    Friend WithEvents cbox_driverCountry As ComboBox
+    Friend WithEvents txt_driverID As TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents driverList As ListBox
+    Friend WithEvents btn_UpdateDriver As Button
+    Friend WithEvents btn_DeleteDriver As Button
+    Friend WithEvents btn_AddDriver As Button
+    Friend WithEvents Label8 As Label
 
 End Class

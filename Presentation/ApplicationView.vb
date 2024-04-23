@@ -1,8 +1,11 @@
-﻿Imports Google.Protobuf.Compiler
+﻿Imports System.Globalization
+Imports Google.Protobuf.Compiler
 
 Public Class ApplicationView
     Private c As Country
     Private t As Team
+    Private gp As GPs
+    Private d As Drivers
     Private Sub ApplicationView_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
         If DBBroker.GetBroker IsNot Nothing Then
             'Label1.Text = "Bağlandım."
@@ -10,15 +13,26 @@ Public Class ApplicationView
 
         c = New Country
         t = New Team
+        gp = New GPs
+        d = New Drivers
 
+        'Initiliazing Driver Data from DB
+        d.DriverDAO.ReadAll()
+        driverList.DataSource = d.DriverDAO.Drivers
+        driverList.Update()
+
+        'Initiliazing Country Data from DB
         c.CountDAO.ReadAll()
-
         countryList.DataSource = c.CountDAO.Countries
         countryList.Update()
-        c.CountDAO.ReadAll()
+
+        'Initiliazing GP Data from DB
+        gp.GpDAO.ReadAll()
+        gpList.DataSource = gp.GpDAO.GPs
+        gpList.Update()
 
 
-        Dim count = c.CountDAO.Countries.Count
+
 
         teamsList.DataSource = t.TeamDAO.Teams
         teamsList.Update()
@@ -30,6 +44,18 @@ Public Class ApplicationView
         cbox_teamCountry.Update()
 
 
+        cbox_GP.DataSource = c.CountDAO.Countries
+        cbox_GP.DisplayMember = "CountryID"
+        cbox_GP.ValueMember = "CountryID"
+
+        cbox_GP.Update()
+
+
+        cbox_driverCountry.DataSource = c.CountDAO.Countries
+        cbox_driverCountry.DisplayMember = "CountryID"
+        cbox_driverCountry.ValueMember = "CountryID"
+
+        cbox_driverCountry.Update()
 
     End Sub
 
@@ -91,12 +117,14 @@ Public Class ApplicationView
 
     Private Sub btn_AddTeam_Click(sender As Object, e As EventArgs) Handles btn_addTeam.Click, btn_Add.Click
         Dim selectedCountry As Country = cbox_teamCountry.SelectedItem
-
+        Dim dateString As DateTime = DateTime.Now
+        Dim originalDate As DateTime = DateTime.Now
+        DateTime.TryParseExact(dateString, "dd.MM.yyyy", Nothing, DateTimeStyles.None, originalDate)
         Dim TeamSample As New Team With {
             .TeamID = txt_teamID.Text,
             .TeamName = txt_teamName.Text,
             .TeamCountry = selectedCountry.CountryID.ToString,
-            .TeamCreationDate = DateTime.Now.ToString("yyyy.MM.dd")
+            .TeamCreationDate = originalDate.ToString("yyyy-MM-dd")
         }
         TeamSample.InsertCountry()
 
@@ -104,5 +132,41 @@ Public Class ApplicationView
 
         teamsList.DataSource = TeamSample.TeamDAO.Teams
         teamsList.Update()
+    End Sub
+
+    Private Sub btn_AddGP_Click(sender As Object, e As EventArgs) Handles btn_AddGP.Click
+
+        Dim selectedCountry As Country = cbox_GP.SelectedItem
+
+        Dim GPSample As New GPs With {
+            .GPID = txt_gpID.Text,
+            .GPName = txt_gpName.Text,
+            .GPCountry = selectedCountry.CountryID.ToString
+        }
+
+        GPSample.InsertGP()
+
+        GPSample.GpDAO.ReadAll()
+        gpList.DataSource = GPSample.GpDAO.GPs
+        gpList.Update()
+
+
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles btn_AddDriver.Click
+        Dim selectedCountry As Country = cbox_driverCountry.SelectedItem
+
+        Dim DriverSample As New Drivers With {
+            .DriverID = txt_driverID.Text,
+            .DriverName = txt_driverName.Text,
+            .DriverSurname = txt_driverSurname.Text,
+            .DriverCountry = selectedCountry.CountryID.ToString
+        }
+
+        DriverSample.InsertDriver()
+
+        DriverSample.DriverDAO.ReadAll()
+        driverList.DataSource = DriverSample.DriverDAO.Drivers
+        driverList.Update()
     End Sub
 End Class
