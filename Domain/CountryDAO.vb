@@ -16,6 +16,7 @@ Public Class CountryDAO
         col = DBBroker.GetBroker.Read("SELECT * FROM countries WHERE CountryID='" & c.CountryID & "';")
         For Each aux In col
             c.CountryName = aux(2).ToString
+            c.CountryPopulation = aux(3).ToString
         Next
     End Sub
 
@@ -26,6 +27,7 @@ Public Class CountryDAO
         For Each aux In col
             c = New Country(aux(1).ToString)
             c.CountryName = aux(2).ToString
+            c.CountryPopulation = aux(3).ToString
             Me.Countries.Add(c)
         Next
     End Sub
