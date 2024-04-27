@@ -1,3 +1,5 @@
+Imports System.Globalization
+
 Public Class TeamsDAO
 
     Public ReadOnly Property Teams As Collection
@@ -6,7 +8,7 @@ Public Class TeamsDAO
         Me.Teams = New Collection
     End Sub
     Public Function Insert(ByVal t As Team) As Integer
-        Return DBBroker.GetBroker.Change("INSERT INTO teams VALUES ('" & t.TeamID & "', '" & t.TeamName & "', '" & t.TeamCountry & "' , '" & t.TeamCreationDate & "');")
+        Return DBBroker.GetBroker.Change("INSERT INTO teams VALUES ('" & t.TeamID & "', '" & t.TeamName & "', '" & t.TeamCountry & "' , STR_TO_DATE('" & t.TeamCreationDate & "', '%d.%m.%Y'))")
     End Function
 
     Public Sub Read(ByRef t As Team)

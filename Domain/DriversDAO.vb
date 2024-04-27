@@ -21,7 +21,8 @@
         For Each aux In col
             t = New Drivers(aux(1))
             t.DriverName = aux(2).ToString
-            t.DriverCountry = aux(3).ToString
+            t.DriverSurname = aux(3).ToString
+            t.DriverCountry = aux(4).ToString
             Me.Drivers.Add(t)
         Next
     End Sub

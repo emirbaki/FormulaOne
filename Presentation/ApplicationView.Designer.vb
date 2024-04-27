@@ -36,6 +36,16 @@ Partial Class ApplicationView
         TabControl1 = New TabControl()
         tab_countries = New TabPage()
         tab_drivers = New TabPage()
+        GroupBox5 = New GroupBox()
+        Label14 = New Label()
+        selectedDriversListBox = New ListBox()
+        btn_RemoveSelectedDriverContract = New Button()
+        btn_AddSelectedDriverContract = New Button()
+        btn_Contract = New Button()
+        cbox_contractTeam = New ComboBox()
+        Label12 = New Label()
+        cbox_contractSeason = New ComboBox()
+        Label13 = New Label()
         GroupBox4 = New GroupBox()
         txt_driverSurname = New TextBox()
         txt_driverName = New TextBox()
@@ -50,6 +60,10 @@ Partial Class ApplicationView
         btn_DeleteDriver = New Button()
         btn_AddDriver = New Button()
         tab_teams = New TabPage()
+        GroupBox6 = New GroupBox()
+        cbox_teamDetailsSeason = New ComboBox()
+        Label15 = New Label()
+        TeamDetailsListView = New ListView()
         GroupBox2 = New GroupBox()
         txt_teamName = New TextBox()
         cbox_teamCountry = New ComboBox()
@@ -73,15 +87,36 @@ Partial Class ApplicationView
         btn_UpdateGP = New Button()
         btn_DeleteGP = New Button()
         btn_AddGP = New Button()
+        TabPage1 = New TabPage()
+        gp_listview = New ListView()
+        ColumnHeader2 = New ColumnHeader()
+        nud_gpCount = New NumericUpDown()
+        nud_teamCount = New NumericUpDown()
+        ListView2 = New ListView()
+        ColumnHeader1 = New ColumnHeader()
+        Label11 = New Label()
+        btn_generateCalendar = New Button()
+        teamsList_RacesPage = New ListView()
+        Label10 = New Label()
+        Label9 = New Label()
+        cbox_Season = New ComboBox()
+        ReportsPage = New TabPage()
+        resultText = New Label()
         GroupBox1.SuspendLayout()
         TabControl1.SuspendLayout()
         tab_countries.SuspendLayout()
         tab_drivers.SuspendLayout()
+        GroupBox5.SuspendLayout()
         GroupBox4.SuspendLayout()
         tab_teams.SuspendLayout()
+        GroupBox6.SuspendLayout()
         GroupBox2.SuspendLayout()
         tab_gps.SuspendLayout()
         GroupBox3.SuspendLayout()
+        TabPage1.SuspendLayout()
+        CType(nud_gpCount, ComponentModel.ISupportInitialize).BeginInit()
+        CType(nud_teamCount, ComponentModel.ISupportInitialize).BeginInit()
+        ReportsPage.SuspendLayout()
         SuspendLayout()
         ' 
         ' GroupBox1
@@ -119,6 +154,7 @@ Partial Class ApplicationView
         ' 
         ' txt_countryID
         ' 
+        txt_countryID.Enabled = False
         txt_countryID.Location = New Point(175, 333)
         txt_countryID.Name = "txt_countryID"
         txt_countryID.Size = New Size(125, 27)
@@ -192,10 +228,12 @@ Partial Class ApplicationView
         TabControl1.Controls.Add(tab_drivers)
         TabControl1.Controls.Add(tab_teams)
         TabControl1.Controls.Add(tab_gps)
+        TabControl1.Controls.Add(TabPage1)
+        TabControl1.Controls.Add(ReportsPage)
         TabControl1.Location = New Point(0, 0)
         TabControl1.Name = "TabControl1"
         TabControl1.SelectedIndex = 0
-        TabControl1.Size = New Size(688, 553)
+        TabControl1.Size = New Size(1027, 642)
         TabControl1.TabIndex = 2
         ' 
         ' tab_countries
@@ -204,21 +242,118 @@ Partial Class ApplicationView
         tab_countries.Location = New Point(4, 29)
         tab_countries.Name = "tab_countries"
         tab_countries.Padding = New Padding(3)
-        tab_countries.Size = New Size(680, 520)
+        tab_countries.Size = New Size(1019, 609)
         tab_countries.TabIndex = 0
         tab_countries.Text = "Countries"
         tab_countries.UseVisualStyleBackColor = True
         ' 
         ' tab_drivers
         ' 
+        tab_drivers.Controls.Add(GroupBox5)
         tab_drivers.Controls.Add(GroupBox4)
         tab_drivers.Location = New Point(4, 29)
         tab_drivers.Name = "tab_drivers"
         tab_drivers.Padding = New Padding(3)
-        tab_drivers.Size = New Size(680, 520)
+        tab_drivers.Size = New Size(1019, 609)
         tab_drivers.TabIndex = 1
         tab_drivers.Text = "Drivers"
         tab_drivers.UseVisualStyleBackColor = True
+        ' 
+        ' GroupBox5
+        ' 
+        GroupBox5.Controls.Add(Label14)
+        GroupBox5.Controls.Add(selectedDriversListBox)
+        GroupBox5.Controls.Add(btn_RemoveSelectedDriverContract)
+        GroupBox5.Controls.Add(btn_AddSelectedDriverContract)
+        GroupBox5.Controls.Add(btn_Contract)
+        GroupBox5.Controls.Add(cbox_contractTeam)
+        GroupBox5.Controls.Add(Label12)
+        GroupBox5.Controls.Add(cbox_contractSeason)
+        GroupBox5.Controls.Add(Label13)
+        GroupBox5.Location = New Point(320, 11)
+        GroupBox5.Name = "GroupBox5"
+        GroupBox5.Size = New Size(488, 506)
+        GroupBox5.TabIndex = 4
+        GroupBox5.TabStop = False
+        GroupBox5.Text = "Contract with a team"
+        ' 
+        ' Label14
+        ' 
+        Label14.AutoSize = True
+        Label14.Location = New Point(7, 310)
+        Label14.Name = "Label14"
+        Label14.Size = New Size(119, 20)
+        Label14.TabIndex = 15
+        Label14.Text = "Selected Drivers:"
+        ' 
+        ' selectedDriversListBox
+        ' 
+        selectedDriversListBox.FormattingEnabled = True
+        selectedDriversListBox.Location = New Point(7, 333)
+        selectedDriversListBox.Name = "selectedDriversListBox"
+        selectedDriversListBox.Size = New Size(475, 104)
+        selectedDriversListBox.TabIndex = 14
+        ' 
+        ' btn_RemoveSelectedDriverContract
+        ' 
+        btn_RemoveSelectedDriverContract.Location = New Point(6, 94)
+        btn_RemoveSelectedDriverContract.Name = "btn_RemoveSelectedDriverContract"
+        btn_RemoveSelectedDriverContract.Size = New Size(151, 59)
+        btn_RemoveSelectedDriverContract.TabIndex = 13
+        btn_RemoveSelectedDriverContract.Text = "Remove the selected driver"
+        btn_RemoveSelectedDriverContract.UseVisualStyleBackColor = True
+        ' 
+        ' btn_AddSelectedDriverContract
+        ' 
+        btn_AddSelectedDriverContract.Location = New Point(6, 29)
+        btn_AddSelectedDriverContract.Name = "btn_AddSelectedDriverContract"
+        btn_AddSelectedDriverContract.Size = New Size(151, 59)
+        btn_AddSelectedDriverContract.TabIndex = 12
+        btn_AddSelectedDriverContract.Text = "Add the selected driver"
+        btn_AddSelectedDriverContract.UseVisualStyleBackColor = True
+        ' 
+        ' btn_Contract
+        ' 
+        btn_Contract.Location = New Point(331, 103)
+        btn_Contract.Name = "btn_Contract"
+        btn_Contract.Size = New Size(151, 29)
+        btn_Contract.TabIndex = 11
+        btn_Contract.Text = "Make a Contract"
+        btn_Contract.UseVisualStyleBackColor = True
+        ' 
+        ' cbox_contractTeam
+        ' 
+        cbox_contractTeam.FormattingEnabled = True
+        cbox_contractTeam.Location = New Point(331, 60)
+        cbox_contractTeam.Name = "cbox_contractTeam"
+        cbox_contractTeam.Size = New Size(151, 28)
+        cbox_contractTeam.TabIndex = 10
+        ' 
+        ' Label12
+        ' 
+        Label12.AutoSize = True
+        Label12.Location = New Point(188, 63)
+        Label12.Name = "Label12"
+        Label12.Size = New Size(48, 20)
+        Label12.TabIndex = 9
+        Label12.Text = "Team:"
+        ' 
+        ' cbox_contractSeason
+        ' 
+        cbox_contractSeason.FormattingEnabled = True
+        cbox_contractSeason.Location = New Point(331, 26)
+        cbox_contractSeason.Name = "cbox_contractSeason"
+        cbox_contractSeason.Size = New Size(151, 28)
+        cbox_contractSeason.TabIndex = 8
+        ' 
+        ' Label13
+        ' 
+        Label13.AutoSize = True
+        Label13.Location = New Point(188, 29)
+        Label13.Name = "Label13"
+        Label13.Size = New Size(84, 20)
+        Label13.TabIndex = 5
+        Label13.Text = "For Season:"
         ' 
         ' GroupBox4
         ' 
@@ -343,14 +478,52 @@ Partial Class ApplicationView
         ' 
         ' tab_teams
         ' 
+        tab_teams.Controls.Add(GroupBox6)
         tab_teams.Controls.Add(GroupBox2)
         tab_teams.Location = New Point(4, 29)
         tab_teams.Name = "tab_teams"
         tab_teams.RightToLeft = RightToLeft.No
-        tab_teams.Size = New Size(680, 520)
+        tab_teams.Size = New Size(1019, 609)
         tab_teams.TabIndex = 2
         tab_teams.Text = "Teams"
         tab_teams.UseVisualStyleBackColor = True
+        ' 
+        ' GroupBox6
+        ' 
+        GroupBox6.Controls.Add(cbox_teamDetailsSeason)
+        GroupBox6.Controls.Add(Label15)
+        GroupBox6.Controls.Add(TeamDetailsListView)
+        GroupBox6.Location = New Point(331, 7)
+        GroupBox6.Name = "GroupBox6"
+        GroupBox6.Size = New Size(685, 474)
+        GroupBox6.TabIndex = 3
+        GroupBox6.TabStop = False
+        GroupBox6.Text = "Team Details"
+        ' 
+        ' cbox_teamDetailsSeason
+        ' 
+        cbox_teamDetailsSeason.FormattingEnabled = True
+        cbox_teamDetailsSeason.Location = New Point(164, 23)
+        cbox_teamDetailsSeason.Name = "cbox_teamDetailsSeason"
+        cbox_teamDetailsSeason.Size = New Size(151, 28)
+        cbox_teamDetailsSeason.TabIndex = 10
+        ' 
+        ' Label15
+        ' 
+        Label15.AutoSize = True
+        Label15.Location = New Point(21, 26)
+        Label15.Name = "Label15"
+        Label15.Size = New Size(84, 20)
+        Label15.TabIndex = 9
+        Label15.Text = "For Season:"
+        ' 
+        ' TeamDetailsListView
+        ' 
+        TeamDetailsListView.Location = New Point(21, 67)
+        TeamDetailsListView.Name = "TeamDetailsListView"
+        TeamDetailsListView.Size = New Size(645, 401)
+        TeamDetailsListView.TabIndex = 0
+        TeamDetailsListView.UseCompatibleStateImageBehavior = False
         ' 
         ' GroupBox2
         ' 
@@ -460,7 +633,7 @@ Partial Class ApplicationView
         tab_gps.Controls.Add(GroupBox3)
         tab_gps.Location = New Point(4, 29)
         tab_gps.Name = "tab_gps"
-        tab_gps.Size = New Size(680, 520)
+        tab_gps.Size = New Size(1019, 609)
         tab_gps.TabIndex = 3
         tab_gps.Text = "GPs"
         tab_gps.UseVisualStyleBackColor = True
@@ -568,11 +741,135 @@ Partial Class ApplicationView
         btn_AddGP.Text = "Add"
         btn_AddGP.UseVisualStyleBackColor = True
         ' 
+        ' TabPage1
+        ' 
+        TabPage1.Controls.Add(gp_listview)
+        TabPage1.Controls.Add(nud_gpCount)
+        TabPage1.Controls.Add(nud_teamCount)
+        TabPage1.Controls.Add(ListView2)
+        TabPage1.Controls.Add(Label11)
+        TabPage1.Controls.Add(btn_generateCalendar)
+        TabPage1.Controls.Add(teamsList_RacesPage)
+        TabPage1.Controls.Add(Label10)
+        TabPage1.Controls.Add(Label9)
+        TabPage1.Controls.Add(cbox_Season)
+        TabPage1.Location = New Point(4, 29)
+        TabPage1.Name = "TabPage1"
+        TabPage1.Padding = New Padding(3)
+        TabPage1.Size = New Size(1019, 609)
+        TabPage1.TabIndex = 4
+        TabPage1.Text = "Races"
+        TabPage1.UseVisualStyleBackColor = True
+        ' 
+        ' gp_listview
+        ' 
+        gp_listview.Columns.AddRange(New ColumnHeader() {ColumnHeader2})
+        gp_listview.Location = New Point(731, 142)
+        gp_listview.Name = "gp_listview"
+        gp_listview.Size = New Size(229, 395)
+        gp_listview.TabIndex = 10
+        gp_listview.UseCompatibleStateImageBehavior = False
+        ' 
+        ' nud_gpCount
+        ' 
+        nud_gpCount.Location = New Point(595, 557)
+        nud_gpCount.Name = "nud_gpCount"
+        nud_gpCount.Size = New Size(150, 27)
+        nud_gpCount.TabIndex = 9
+        ' 
+        ' nud_teamCount
+        ' 
+        nud_teamCount.Location = New Point(68, 93)
+        nud_teamCount.Name = "nud_teamCount"
+        nud_teamCount.Size = New Size(150, 27)
+        nud_teamCount.TabIndex = 8
+        ' 
+        ' ListView2
+        ' 
+        ListView2.Columns.AddRange(New ColumnHeader() {ColumnHeader1})
+        ListView2.Location = New Point(386, 142)
+        ListView2.Name = "ListView2"
+        ListView2.Size = New Size(229, 395)
+        ListView2.TabIndex = 7
+        ListView2.UseCompatibleStateImageBehavior = False
+        ' 
+        ' Label11
+        ' 
+        Label11.AutoSize = True
+        Label11.Location = New Point(386, 95)
+        Label11.Name = "Label11"
+        Label11.Size = New Size(55, 20)
+        Label11.TabIndex = 6
+        Label11.Text = "Drivers"
+        ' 
+        ' btn_generateCalendar
+        ' 
+        btn_generateCalendar.Location = New Point(777, 555)
+        btn_generateCalendar.Name = "btn_generateCalendar"
+        btn_generateCalendar.Size = New Size(183, 29)
+        btn_generateCalendar.TabIndex = 5
+        btn_generateCalendar.Text = "Generate Calendar"
+        btn_generateCalendar.UseVisualStyleBackColor = True
+        ' 
+        ' teamsList_RacesPage
+        ' 
+        teamsList_RacesPage.Location = New Point(8, 142)
+        teamsList_RacesPage.Name = "teamsList_RacesPage"
+        teamsList_RacesPage.Size = New Size(229, 395)
+        teamsList_RacesPage.TabIndex = 4
+        teamsList_RacesPage.UseCompatibleStateImageBehavior = False
+        ' 
+        ' Label10
+        ' 
+        Label10.AutoSize = True
+        Label10.Location = New Point(8, 95)
+        Label10.Name = "Label10"
+        Label10.Size = New Size(54, 20)
+        Label10.TabIndex = 3
+        Label10.Text = "Teams:"
+        ' 
+        ' Label9
+        ' 
+        Label9.AutoSize = True
+        Label9.Location = New Point(3, 16)
+        Label9.Name = "Label9"
+        Label9.Size = New Size(59, 20)
+        Label9.TabIndex = 1
+        Label9.Text = "Season:"
+        ' 
+        ' cbox_Season
+        ' 
+        cbox_Season.FormattingEnabled = True
+        cbox_Season.Location = New Point(67, 13)
+        cbox_Season.Name = "cbox_Season"
+        cbox_Season.Size = New Size(151, 28)
+        cbox_Season.TabIndex = 0
+        ' 
+        ' ReportsPage
+        ' 
+        ReportsPage.Controls.Add(resultText)
+        ReportsPage.Location = New Point(4, 29)
+        ReportsPage.Name = "ReportsPage"
+        ReportsPage.Padding = New Padding(3)
+        ReportsPage.Size = New Size(1019, 609)
+        ReportsPage.TabIndex = 5
+        ReportsPage.Text = "Reports"
+        ReportsPage.UseVisualStyleBackColor = True
+        ' 
+        ' resultText
+        ' 
+        resultText.AutoSize = True
+        resultText.Location = New Point(8, 31)
+        resultText.Name = "resultText"
+        resultText.Size = New Size(72, 20)
+        resultText.TabIndex = 0
+        resultText.Text = "resultText"
+        ' 
         ' ApplicationView
         ' 
         AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(691, 549)
+        ClientSize = New Size(1030, 634)
         Controls.Add(TabControl1)
         Name = "ApplicationView"
         Text = "Formula 1"
@@ -581,14 +878,24 @@ Partial Class ApplicationView
         TabControl1.ResumeLayout(False)
         tab_countries.ResumeLayout(False)
         tab_drivers.ResumeLayout(False)
+        GroupBox5.ResumeLayout(False)
+        GroupBox5.PerformLayout()
         GroupBox4.ResumeLayout(False)
         GroupBox4.PerformLayout()
         tab_teams.ResumeLayout(False)
+        GroupBox6.ResumeLayout(False)
+        GroupBox6.PerformLayout()
         GroupBox2.ResumeLayout(False)
         GroupBox2.PerformLayout()
         tab_gps.ResumeLayout(False)
         GroupBox3.ResumeLayout(False)
         GroupBox3.PerformLayout()
+        TabPage1.ResumeLayout(False)
+        TabPage1.PerformLayout()
+        CType(nud_gpCount, ComponentModel.ISupportInitialize).EndInit()
+        CType(nud_teamCount, ComponentModel.ISupportInitialize).EndInit()
+        ReportsPage.ResumeLayout(False)
+        ReportsPage.PerformLayout()
         ResumeLayout(False)
     End Sub
 
@@ -645,5 +952,36 @@ Partial Class ApplicationView
     Friend WithEvents btn_DeleteDriver As Button
     Friend WithEvents btn_AddDriver As Button
     Friend WithEvents Label8 As Label
+    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents Label9 As Label
+    Friend WithEvents cbox_Season As ComboBox
+    Friend WithEvents teamsList_RacesPage As ListView
+    Friend WithEvents Label10 As Label
+    Friend WithEvents btn_generateCalendar As Button
+    Friend WithEvents nud_teamCount As NumericUpDown
+    Friend WithEvents ListView2 As ListView
+    Friend WithEvents Label11 As Label
+    Friend WithEvents ColumnHeader1 As ColumnHeader
+    Friend WithEvents nud_gpCount As NumericUpDown
+    Friend WithEvents gp_listview As ListView
+    Friend WithEvents ColumnHeader2 As ColumnHeader
+    Friend WithEvents ReportsPage As TabPage
+    Friend WithEvents GroupBox5 As GroupBox
+    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Button5 As Button
+    Friend WithEvents cbox_contractTeam As ComboBox
+    Friend WithEvents cbox_contractSeason As ComboBox
+    Friend WithEvents Label12 As Label
+    Friend WithEvents btn_Contract As Button
+    Friend WithEvents btn_AddSelectedDriverContract As Button
+    Friend WithEvents btn_RemoveSelectedDriverContract As Button
+    Friend WithEvents Label14 As Label
+    Friend WithEvents selectedDriversListBox As ListBox
+    Friend WithEvents GroupBox6 As GroupBox
+    Friend WithEvents TeamDetailsListView As ListView
+    Friend WithEvents cbox_teamDetailsSeason As ComboBox
+    Friend WithEvents Label15 As Label
+    Friend WithEvents resultText As Label
 
 End Class

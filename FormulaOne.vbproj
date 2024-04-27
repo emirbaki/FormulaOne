@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Domain\CalendarsDAO" />
     <None Remove="Domain\NewFile1.txt" />
   </ItemGroup>
 

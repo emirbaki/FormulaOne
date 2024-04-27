@@ -3,7 +3,7 @@ Public Class Team
     Public Property TeamName As String
 
     Public Property TeamCountry As String
-    Public Property TeamCreationDate As DateTime
+    Public Property TeamCreationDate As Date
 
     Public ReadOnly Property TeamDAO As TeamsDAO
 

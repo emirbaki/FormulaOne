@@ -39,5 +39,14 @@ Public Class CountryDAO
         Return DBBroker.GetBroker.Change("DELETE FROM countries WHERE CountryID='" & c.CountryID & "';")
     End Function
 
+    Public Function CheckID(ByVal id) As Integer
+        Dim col As Collection : Dim aux As Collection
+        col = DBBroker.GetBroker.Read("SELECT * FROM Countries WHERE CountryID LIKE '" & id & "';")
+
+        If col.Count > 0 Then
+            Return 1
+        End If
+        Return 0
+    End Function
 
 End Class
