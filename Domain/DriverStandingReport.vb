@@ -19,6 +19,20 @@ Public Class DriverStandingsReport
 
         reportText &= vbCrLf & vbCrLf
         'reportText &= "World Constructors' Champion: " & constructorsStandings.TeamName & vbCrLf
+        Dim race As New Races
+        race.RaceDAO.ReadAll()
+        Dim racess As New List(Of Races)
+        For Each _race As Races In race.RaceDAO.Races
+            racess.Add(_race)
+        Next
+        Dim seasonRanking = CalculateDriverRanking(racess, 2024)
+
+        Dim rCount = 1
+        ' Output the ranking
+        For Each entry In seasonRanking
+            reportText &= $"Rank: {rCount} { vbTab } Driver ID: {entry.Key}, { vbTab } Points: {entry.Value}" & vbCrLf
+            rCount += 1
+        Next
 
         Return reportText
     End Function
@@ -82,6 +96,9 @@ Public Class DriverStandingsReport
 
             i += 1
         End While
+        race.RaceDAO.ReadAll()
+
+
         Return raceresult
     End Function
 
@@ -112,6 +129,7 @@ Public Class DriverStandingsReport
             End If
         Next
 
+
         Dim resultList As New List(Of DriverStanding)
         resultList.AddRange(standings.Values)
 
@@ -136,6 +154,7 @@ Public Class DriverStandingsReport
 
     End Function
 
+
     Private Function GetConstructorStandings(ByVal driverStandings As List(Of DriverStanding)) As TeamStanding
         ' ... (implementation to calculate constructor standings based on driver standings) ...
     End Function
@@ -145,7 +164,8 @@ Public Class DriverStandingsReport
 
         Dim race As New Races
 
-        Dim shuffledDrivers As New List(Of Drivers)(drivers)
+        ' Shuffle the list of drivers randomly
+        Dim shuffledDrivers As New List(Of Drivers)
         For i As Integer = shuffledDrivers.Count - 1 To 1 Step -1
             Dim j As Integer = random.Next(0, i + 1)
             Dim temp As Drivers = shuffledDrivers(i)
@@ -154,7 +174,7 @@ Public Class DriverStandingsReport
         Next
 
         ' Assign positions and points based on the shuffled drivers
-        For i As Integer = 0 To shuffledDrivers.Count - 1
+        For i As Integer = 0 To drivers.Count - 1
             Dim position As Integer = i + 1
             Dim driver As Drivers = shuffledDrivers(i)
             Dim point As SByte
@@ -186,6 +206,35 @@ Public Class DriverStandingsReport
             race.InsertRace()
         Next
     End Sub
+
+    Public Shared Function CalculateDriverRanking(raceList As List(Of Races), season As UShort) As Dictionary(Of Integer, Integer)
+        Dim driverPoints As New Dictionary(Of Integer, Integer)()
+
+        ' Iterate through each race and sum up the points for each driver
+        For Each race In raceList
+            If race.Season = season Then
+                If driverPoints.ContainsKey(race.Driver) Then
+                    ' If the driver already exists in the dictionary, add the points to their existing total
+                    driverPoints(race.Driver) += race.Point
+                Else
+                    ' If the driver is not in the dictionary, add them with their initial points
+                    driverPoints.Add(race.Driver, race.Point)
+                End If
+            End If
+        Next
+
+        ' Sort the dictionary by points in descending order to create the ranking
+        Dim sortedRanking = From entry In driverPoints Order By entry.Value Descending Select entry
+
+        ' Convert the sorted ranking to a dictionary
+        Dim rankingDictionary As New Dictionary(Of Integer, Integer)()
+        For Each entry In sortedRanking
+            rankingDictionary.Add(entry.Key, entry.Value)
+        Next
+
+        ' Return the sorted ranking
+        Return rankingDictionary
+    End Function
 
 
 End Class

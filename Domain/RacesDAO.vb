@@ -41,11 +41,11 @@ Public Class RacesDAO
         col = DBBroker.GetBroker().Read("SELECT * FROM Races ORDER BY Season")
         For Each aux In col
             t = New Races(aux(1))
-            t.Season = aux(2).ToString
-            t.GP = aux(3).ToString
-            t.Driver = aux(4).ToString
-            t.Position = aux(5).ToString
-            t.Point = aux(6).ToString
+            t.Season = aux(1).ToString
+            t.GP = aux(2).ToString
+            t.Driver = aux(3).ToString
+            t.Position = aux(4).ToString
+            t.Point = aux(5).ToString
             Me.Races.Add(t)
         Next
     End Sub
