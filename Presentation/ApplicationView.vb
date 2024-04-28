@@ -1,5 +1,6 @@
 ﻿Imports System.Globalization
 Imports Google.Protobuf.Compiler
+Imports System.Linq
 
 Public Class ApplicationView
     Private c As Country
@@ -71,6 +72,10 @@ Public Class ApplicationView
 
         cbox_driverCountry.Update()
 
+
+
+
+
     End Sub
 
     Private Sub LstPersons_SelectedIndexChanged(sender As Object, e As EventArgs) Handles countryList.SelectedIndexChanged
@@ -93,17 +98,48 @@ Public Class ApplicationView
     End Sub
 
     Private Sub btn_Add_Click(sender As Object, e As EventArgs) Handles btn_Add.Click
-        Dim CountrySample As New Country With {
+        If txt_countryID.Text.Length <> 3 And txt_countryID.Text <> Nothing And txt_countryID.Text <> "" Then
+            MessageBox.Show("Identifier must be composed of 3 letters.", "Invalid Identifier", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        Dim identifier As String = txt_countryID.Text.ToUpper()
+
+        Dim countryDAO As New CountryDAO()
+        If countryDAO.CheckID(identifier) Then
+            MessageBox.Show("Identifier is already in use.", "Duplicate Identifier", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        If txt_countryID.Text <> Nothing Or txt_countryID.Text <> "" Then
+            Dim CountrySample As New Country With {
+            .CountryID = identifier,
             .CountryName = txt_countryName.Text,
             .CountryPopulation = txt_countryPop.Text
-        }
-        CountrySample.InsertCountry()
+              }
 
-        CountrySample.CountDAO.ReadAll()
+            CountrySample.InsertCountry()
 
-        countryList.DataSource = CountrySample.CountDAO.Countries
-        countryList.Update()
+            CountrySample.CountDAO.ReadAll()
+
+            countryList.DataSource = CountrySample.CountDAO.Countries
+            countryList.Update()
+        Else
+            Dim CountrySample As New Country With {
+            .CountryName = txt_countryName.Text,
+            .CountryPopulation = txt_countryPop.Text
+              }
+
+            CountrySample.InsertCountry()
+
+            CountrySample.CountDAO.ReadAll()
+
+            countryList.DataSource = CountrySample.CountDAO.Countries
+            countryList.Update()
+        End If
     End Sub
+
+
 
     Private Sub btn_Delete_Click(sender As Object, e As EventArgs) Handles btn_Delete.Click
         c = CType(countryList.SelectedItem, Country)
@@ -137,7 +173,7 @@ Public Class ApplicationView
             .TeamCountry = selectedCountry.CountryID.ToString,
             .TeamCreationDate = Date.Now.ToShortDateString
         }
-        TeamSample.InsertCountry()
+        TeamSample.InsertTeam()
 
         TeamSample.TeamDAO.ReadAll()
 
@@ -188,6 +224,8 @@ Public Class ApplicationView
     Dim numGrandPrixs As Integer
     Dim _teamsList_list As List(Of Team)
     Dim grandPrixList As List(Of GPs)
+    Dim _driverList_List As New List(Of Drivers)
+
     Dim randomizer As New Random()
 
     Private Sub ButtonGenerateSeason_Click(sender As Object, e As EventArgs) Handles btn_generateCalendar.Click
@@ -224,7 +262,18 @@ Public Class ApplicationView
 
         ' Generate Grand Prix calendar
         grandPrixList = GenerateGrandPrixCalendar(numGrandPrixs)
+        Dim report As New DriverStandingsReport
 
+        For i As Integer = 1 To grandPrixList.Count
+            Dim calendars As New Calendars With {
+                .Season = year,
+                .GP = grandPrixList(i).GPID,
+                .Order = i
+            }
+            calendars.InsertCalendar()
+            report.GenerateRandomRacePositions(_driverList_List, year, grandPrixList(i).GPID)
+
+        Next
         ' Display information (replace with your actual data display logic)
         teamsList_RacesPage.Items.Clear()
         For Each team In _teamsList_list
@@ -232,9 +281,18 @@ Public Class ApplicationView
         Next
 
         gp_listview.Items.Clear()
+
         For Each gp In grandPrixList
             gp_listview.Items.Add(gp.GPName)
         Next
+
+
+
+
+
+        RacesDriverList.Items.Clear()
+
+
     End Sub
 
     ' Function to generate random team count (5-10)
@@ -251,12 +309,54 @@ Public Class ApplicationView
     '' (Replace this with your logic to retrieve drivers from database)
     Private Function GenerateTeams(numTeams As Integer) As List(Of Team)
         Dim teams As New List(Of Team)
-        For i As Integer = 1 To numTeams
-            Dim team As New Team()
-            team.TeamName = "Team " & i.ToString()
-            'team.Drivers = GetRandomDrivers(numDriversPerTeam)
-            teams.Add(team)
+        t.TeamDAO.ReadAll()
+
+        ' Ensure requested number doesn't exceed available GPs
+        If numTeams > t.TeamDAO.Teams.Count Then
+            Throw New ArgumentOutOfRangeException(NameOf(numTeams), numTeams, "Requested number of Grand Prix entries exceeds available data.")
+        End If
+
+        ' Check if any GPs are available
+        If numTeams = 0 Then
+            ' Handle no available GPs (optional: return empty list or log message)
+            Console.WriteLine("No Grand Prix data available to generate calendar.")
+            Return teams
+        End If
+
+        Dim tempCol = t.TeamDAO.Teams
+        ' Select unique GPs for the calendar
+        For i As Integer = 0 To numTeams - 1
+            ' Get the index of the GP to select
+            Dim selectedItem = RandomlyPickAndRemove(tempCol)
+
+            ' Add the selected GP to the calendar
+            teams.Add(selectedItem)
         Next
+
+        For i As Integer = 0 To teams.Count - 1
+
+            Dim contract As New Contracts With {
+                .Team = teams(i).TeamID,
+                .Season = year
+            }
+
+            contract.ReadContract()
+            Dim Driver1 As New Drivers With {
+              .DriverID = contract.Driver1
+            }
+            Dim Driver2 As New Drivers With {
+              .DriverID = contract.Driver2
+            }
+
+            Driver1.ReadDriver()
+            Driver2.ReadDriver()
+            _driverList_List.Add(Driver1)
+            _driverList_List.Add(Driver2)
+
+            RacesDriverList.Items.Add(Driver1.ToString)
+            RacesDriverList.Items.Add(Driver2.ToString)
+        Next
+
         Return teams
     End Function
 
@@ -273,44 +373,67 @@ Public Class ApplicationView
     ' Function to generate Grand Prix calendar with random names
     Private Function GenerateGrandPrixCalendar(numGrandPrixs As Integer) As List(Of GPs)
         Dim calendar As New List(Of GPs)
-        For i As Integer = 1 To numGrandPrixs
-            calendar.Add(New GPs With
-                {
-                .GPName = "Grand Prix " & i.ToString()}
-                         )
+        gp.GpDAO.ReadAll()
+
+        ' Ensure requested number doesn't exceed available GPs
+        If numGrandPrixs > gp.GpDAO.GPs.Count Then
+            Throw New ArgumentOutOfRangeException(NameOf(numGrandPrixs), numGrandPrixs, "Requested number of Grand Prix entries exceeds available data.")
+        End If
+
+        ' Check if any GPs are available
+        If numGrandPrixs = 0 Then
+            ' Handle no available GPs (optional: return empty list or log message)
+            Console.WriteLine("No Grand Prix data available to generate calendar.")
+            Return calendar
+        End If
+
+        Dim tempCol = gp.GpDAO.GPs
+
+        ' Select unique GPs for the calendar
+        For i As Integer = 0 To numGrandPrixs - 1
+            ' Get the index of the GP to select
+            Dim selectedItem = RandomlyPickAndRemove(tempCol)
+
+            ' Add the selected GP to the calendar
+            calendar.Add(selectedItem)
         Next
+
+
+
         Return calendar
+
+    End Function
+    Private Function RandomlyPickAndRemove(ByRef list As Collection) As Object
+        Dim random = New Random()
+
+        ' Check if the collection is empty
+        If list.Count = 0 Then
+            Throw New InvalidOperationException("The collection is empty.")
+        End If
+
+        ' Generate a random index between 1 and list.Count
+        Dim randomIndex = random.Next(1, list.Count)
+
+        ' Retrieve the item at the random index
+        Dim selectedItem = list(randomIndex)
+
+        ' Remove the item from the collection
+        list.Remove(randomIndex)
+
+        Return selectedItem
+    End Function
+    Private Function Shuffle(Of T)(list As List(Of T), random As Random) As List(Of T)
+        Dim n As Integer = list.Count
+        While n > 1
+            n -= 1
+            Dim k As Integer = random.Next(n + 1)
+            Dim value As T = list(k)
+            list(k) = list(n)
+            list(n) = value
+        End While
+        Return list
     End Function
 
-    Private Sub teamsList_SelectedIndexChanged(sender As Object, e As EventArgs) Handles teamsList.SelectedIndexChanged
-
-        'TeamDetailsListView.Clear()
-        Dim selectedTeam = CType(teamsList.SelectedItem, Team)
-
-        Dim contracts As New Contracts With
-            {
-                .Team = selectedTeam.TeamID,
-                .Season = CType(cbox_teamDetailsSeason.SelectedItem, UShort)
-            }
-        contracts.ReadContract()
-
-
-        Dim driver1 As New Drivers With
-            {.DriverID = contracts.Driver1}
-        Dim driver2 As New Drivers With
-            {.DriverID = contracts.Driver2}
-
-        driver2.ReadDriver()
-        driver1.ReadDriver()
-
-
-
-        TeamDetailsListView.Items.Add(New ListViewItem({driver1.DriverName + driver1.DriverSurname, contracts.Season}))
-        TeamDetailsListView.Items.Add(New ListViewItem({driver2.DriverName + driver2.DriverSurname, contracts.Season}))
-
-
-
-    End Sub
 
     Private Sub btn_AddSelectedDriverContract_Click(sender As Object, e As EventArgs) Handles btn_AddSelectedDriverContract.Click
         If selectedDriversListBox.Items.Count = 2 Then
@@ -339,5 +462,47 @@ Public Class ApplicationView
 
         newContract.ContractDAO.Insert(newContract)
     End Sub
+    Dim TeamDetailCount = 0
 
+    Private Sub btn_GetDetails_Click(sender As Object, e As EventArgs) Handles btn_GetDetails.Click
+        TeamDetailsListView.Items.Clear()
+        Dim selectedTeam = CType(teamsList.SelectedItem, Team)
+
+        Dim contracts As New Contracts With
+            {
+                .Team = selectedTeam.TeamID,
+                .Season = CType(cbox_teamDetailsSeason.SelectedItem, UShort)
+            }
+        contracts.ReadContract()
+
+
+        Dim driver1 As New Drivers With
+            {.DriverID = contracts.Driver1}
+        Dim driver2 As New Drivers With
+            {.DriverID = contracts.Driver2}
+
+        driver2.ReadDriver()
+        driver1.ReadDriver()
+        Console.WriteLine(driver1)
+        Dim lvItem1 As ListViewItem
+        Dim lvItem2 As ListViewItem
+        TeamDetailsListView.BeginUpdate()
+        lvItem1 = TeamDetailsListView.Items.Add(TeamDetailCount + 1)
+        lvItem1.SubItems.Add(driver1.DriverName + driver1.DriverSurname)
+        lvItem1.SubItems.Add(contracts.Season)
+        lvItem2 = TeamDetailsListView.Items.Add(TeamDetailCount + 2)
+        lvItem2.SubItems.Add(driver2.DriverName + driver2.DriverSurname)
+        lvItem2.SubItems.Add(contracts.Season)
+        'TeamDetailsListView.Items.Add(New ListViewItem({driver1.DriverName + driver1.DriverSurname, contracts.Season}))
+        'TeamDetailsListView.Items.Add(New ListViewItem({driver2.DriverName + driver2.DriverSurname, contracts.Season}))
+        TeamDetailsListView.Update()
+        TeamDetailsListView.EndUpdate()
+    End Sub
+
+    Private Sub btn_GenerateReport_Click(sender As Object, e As EventArgs) Handles btn_GenerateReport.Click
+
+        Dim report As New DriverStandingsReport
+
+        resultText.Text = report.GenerateReport(2004, 3, 2)
+    End Sub
 End Class

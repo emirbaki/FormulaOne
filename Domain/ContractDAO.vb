@@ -12,6 +12,24 @@ Public Class ContractsDAO
     Public Sub Read(ByRef t As Contracts)
         Dim col As Collection : Dim aux As Collection
         col = DBBroker.GetBroker.Read("SELECT * FROM Contracts WHERE Season='" & t.Season & "' AND Team='" & t.Team & "';")
+        If col.Count > 0 Then  ' Check if there's any data retrieved
+            aux = col(1) ' Access the first item in the collection
+            t.Team = aux(1)  ' Update existing object's properties
+            t.Driver1 = aux(3).ToString
+            t.Driver2 = aux(4).ToString
+        End If
+    End Sub
+
+    Public Sub ReadByDrivers(ByRef t As Contracts)
+        Dim col As Collection : Dim aux As Collection
+        col = DBBroker.GetBroker.Read("SELECT * FROM Contracts WHERE Season='" & t.Season & "' AND Driver1='" & t.Driver1 & "';")
+        If col.Count > 0 Then  ' Check if there's any data retrieved
+            aux = col(1) ' Access the first item in the collection
+            t.Team = aux(1)  ' Update existing object's properties
+            t.Season = aux(2)
+            t.Driver1 = aux(3).ToString
+            t.Driver2 = aux(4).ToString
+        End If
     End Sub
 
     Public Sub ReadAll()

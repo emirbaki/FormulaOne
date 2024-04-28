@@ -6,17 +6,27 @@
         Me.Calendars = New Collection
     End Sub
     Public Function Insert(ByVal t As Calendars) As Integer
-        Return DBBroker.GetBroker.Change("INSERT INTO Calendars VALUES ('" & t.Season & "', '" & t.GP & "', '" & t.Order & "');")
+        Return DBBroker.GetBroker.Change("INSERT INTO Calendar VALUES ('" & t.Season & "', '" & t.GP & "', '" & t.Order & "');")
     End Function
 
     Public Sub Read(ByRef t As Calendars)
         Dim col As Collection : Dim aux As Collection
-        col = DBBroker.GetBroker.Read("SELECT * FROM Calendars WHERE Season='" & t.Season & "' AND GP='" & t.GP & "';")
+        col = DBBroker.GetBroker.Read("SELECT * FROM Calendar WHERE Season='" & t.Season & "' AND GP='" & t.GP & "';")
+        If col.Count > 0 Then  ' Check if there's any data retrieved
+            aux = col(1) ' Access the first item in the collection
+            t.GP = aux(2) ' Update existing object's properties
+            t.Order = aux(3)
+        End If
     End Sub
 
     Public Sub ReadGP(ByRef t As Calendars)
         Dim col As Collection : Dim aux As Collection
-        col = DBBroker.GetBroker.Read("SELECT * FROM Calendars WHERE Season='" & t.Season & "' AND Order='" & t.Order & "';")
+        col = DBBroker.GetBroker.Read("SELECT * FROM calendar WHERE Season='" & t.Season & "' AND `Order`= '" & t.Order & "';")
+        If col.Count > 0 Then  ' Check if there's any data retrieved
+            aux = col(1) ' Access the first item in the collection
+            t.GP = aux(2)
+            t.Order = aux(3)
+        End If
     End Sub
 
     Public Sub ReadAll()

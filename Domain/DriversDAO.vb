@@ -11,7 +11,13 @@
 
     Public Sub Read(ByRef t As Drivers)
         Dim col As Collection : Dim aux As Collection
-        col = DBBroker.GetBroker.Read("SELECT * FROM Drivers WHERE DriverID='" & t.DriverID & "';")
+        col = DBBroker.GetBroker().Read("SELECT * FROM Drivers WHERE DriverID='" & t.DriverID & "';")
+        If col.Count > 0 Then  ' Check if there's any data retrieved
+            aux = col(1) ' Access the first item in the collection
+            t.DriverName = aux(2).ToString
+            t.DriverSurname = aux(3).ToString
+            t.DriverCountry = aux(4).ToString
+        End If
     End Sub
 
     Public Sub ReadAll()

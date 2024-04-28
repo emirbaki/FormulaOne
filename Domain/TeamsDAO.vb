@@ -14,6 +14,13 @@ Public Class TeamsDAO
     Public Sub Read(ByRef t As Team)
         Dim col As Collection : Dim aux As Collection
         col = DBBroker.GetBroker.Read("SELECT * FROM teams WHERE TeamID='" & t.TeamID & "';")
+        If col.Count > 0 Then
+            aux = col(1)
+            t.TeamID = aux(1)
+            t.TeamName = aux(2)
+            t.TeamCountry = aux(3)
+            t.TeamCreationDate = aux(4)
+        End If
     End Sub
 
     Public Sub ReadAll()

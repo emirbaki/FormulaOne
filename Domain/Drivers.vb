@@ -32,7 +32,7 @@
     End Function
 
     Public Overrides Function ToString() As String
-        Return DriverName + DriverSurname
+        Return DriverName + " " + DriverSurname
     End Function
 
 End Class

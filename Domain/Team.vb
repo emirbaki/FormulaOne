@@ -16,19 +16,19 @@ Public Class Team
         Me.TeamID = id
     End Sub
 
-    Public Function InsertCountry() As Integer
+    Public Function InsertTeam() As Integer
         Return Me.TeamDAO.Insert(Me)
     End Function
 
-    Public Sub ReadCountry()
+    Public Sub ReadTeam()
         Me.TeamDAO.Read(Me)
     End Sub
 
-    Public Function UpdateCountry() As Integer
+    Public Function UpdateTeam() As Integer
         Return Me.TeamDAO.Update(Me)
     End Function
 
-    Public Function DeleteCountry() As Integer
+    Public Function DeleteTeam() As Integer
         Return Me.TeamDAO.Delete(Me)
     End Function
 

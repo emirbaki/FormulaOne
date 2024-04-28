@@ -61,9 +61,13 @@ Partial Class ApplicationView
         btn_AddDriver = New Button()
         tab_teams = New TabPage()
         GroupBox6 = New GroupBox()
+        btn_GetDetails = New Button()
         cbox_teamDetailsSeason = New ComboBox()
         Label15 = New Label()
         TeamDetailsListView = New ListView()
+        ColumnHeader3 = New ColumnHeader()
+        DriverColumn = New ColumnHeader()
+        SeasonColumn = New ColumnHeader()
         GroupBox2 = New GroupBox()
         txt_teamName = New TextBox()
         cbox_teamCountry = New ComboBox()
@@ -92,7 +96,7 @@ Partial Class ApplicationView
         ColumnHeader2 = New ColumnHeader()
         nud_gpCount = New NumericUpDown()
         nud_teamCount = New NumericUpDown()
-        ListView2 = New ListView()
+        RacesDriverList = New ListView()
         ColumnHeader1 = New ColumnHeader()
         Label11 = New Label()
         btn_generateCalendar = New Button()
@@ -101,7 +105,8 @@ Partial Class ApplicationView
         Label9 = New Label()
         cbox_Season = New ComboBox()
         ReportsPage = New TabPage()
-        resultText = New Label()
+        resultText = New TextBox()
+        btn_GenerateReport = New Button()
         GroupBox1.SuspendLayout()
         TabControl1.SuspendLayout()
         tab_countries.SuspendLayout()
@@ -154,7 +159,6 @@ Partial Class ApplicationView
         ' 
         ' txt_countryID
         ' 
-        txt_countryID.Enabled = False
         txt_countryID.Location = New Point(175, 333)
         txt_countryID.Name = "txt_countryID"
         txt_countryID.Size = New Size(125, 27)
@@ -490,6 +494,7 @@ Partial Class ApplicationView
         ' 
         ' GroupBox6
         ' 
+        GroupBox6.Controls.Add(btn_GetDetails)
         GroupBox6.Controls.Add(cbox_teamDetailsSeason)
         GroupBox6.Controls.Add(Label15)
         GroupBox6.Controls.Add(TeamDetailsListView)
@@ -499,6 +504,15 @@ Partial Class ApplicationView
         GroupBox6.TabIndex = 3
         GroupBox6.TabStop = False
         GroupBox6.Text = "Team Details"
+        ' 
+        ' btn_GetDetails
+        ' 
+        btn_GetDetails.Location = New Point(347, 22)
+        btn_GetDetails.Name = "btn_GetDetails"
+        btn_GetDetails.Size = New Size(94, 29)
+        btn_GetDetails.TabIndex = 11
+        btn_GetDetails.Text = "Get Details"
+        btn_GetDetails.UseVisualStyleBackColor = True
         ' 
         ' cbox_teamDetailsSeason
         ' 
@@ -519,11 +533,25 @@ Partial Class ApplicationView
         ' 
         ' TeamDetailsListView
         ' 
+        TeamDetailsListView.Columns.AddRange(New ColumnHeader() {ColumnHeader3, DriverColumn, SeasonColumn})
         TeamDetailsListView.Location = New Point(21, 67)
         TeamDetailsListView.Name = "TeamDetailsListView"
         TeamDetailsListView.Size = New Size(645, 401)
         TeamDetailsListView.TabIndex = 0
         TeamDetailsListView.UseCompatibleStateImageBehavior = False
+        TeamDetailsListView.View = View.Details
+        ' 
+        ' ColumnHeader3
+        ' 
+        ColumnHeader3.Text = "Index"
+        ' 
+        ' DriverColumn
+        ' 
+        DriverColumn.Text = "Driver"
+        ' 
+        ' SeasonColumn
+        ' 
+        SeasonColumn.Text = "Season"
         ' 
         ' GroupBox2
         ' 
@@ -746,7 +774,7 @@ Partial Class ApplicationView
         TabPage1.Controls.Add(gp_listview)
         TabPage1.Controls.Add(nud_gpCount)
         TabPage1.Controls.Add(nud_teamCount)
-        TabPage1.Controls.Add(ListView2)
+        TabPage1.Controls.Add(RacesDriverList)
         TabPage1.Controls.Add(Label11)
         TabPage1.Controls.Add(btn_generateCalendar)
         TabPage1.Controls.Add(teamsList_RacesPage)
@@ -784,14 +812,14 @@ Partial Class ApplicationView
         nud_teamCount.Size = New Size(150, 27)
         nud_teamCount.TabIndex = 8
         ' 
-        ' ListView2
+        ' RacesDriverList
         ' 
-        ListView2.Columns.AddRange(New ColumnHeader() {ColumnHeader1})
-        ListView2.Location = New Point(386, 142)
-        ListView2.Name = "ListView2"
-        ListView2.Size = New Size(229, 395)
-        ListView2.TabIndex = 7
-        ListView2.UseCompatibleStateImageBehavior = False
+        RacesDriverList.Columns.AddRange(New ColumnHeader() {ColumnHeader1})
+        RacesDriverList.Location = New Point(386, 142)
+        RacesDriverList.Name = "RacesDriverList"
+        RacesDriverList.Size = New Size(229, 395)
+        RacesDriverList.TabIndex = 7
+        RacesDriverList.UseCompatibleStateImageBehavior = False
         ' 
         ' Label11
         ' 
@@ -848,6 +876,7 @@ Partial Class ApplicationView
         ' ReportsPage
         ' 
         ReportsPage.Controls.Add(resultText)
+        ReportsPage.Controls.Add(btn_GenerateReport)
         ReportsPage.Location = New Point(4, 29)
         ReportsPage.Name = "ReportsPage"
         ReportsPage.Padding = New Padding(3)
@@ -858,12 +887,20 @@ Partial Class ApplicationView
         ' 
         ' resultText
         ' 
-        resultText.AutoSize = True
-        resultText.Location = New Point(8, 31)
+        resultText.Location = New Point(8, 71)
+        resultText.Multiline = True
         resultText.Name = "resultText"
-        resultText.Size = New Size(72, 20)
-        resultText.TabIndex = 0
-        resultText.Text = "resultText"
+        resultText.Size = New Size(1005, 404)
+        resultText.TabIndex = 2
+        ' 
+        ' btn_GenerateReport
+        ' 
+        btn_GenerateReport.Location = New Point(8, 15)
+        btn_GenerateReport.Name = "btn_GenerateReport"
+        btn_GenerateReport.Size = New Size(181, 29)
+        btn_GenerateReport.TabIndex = 1
+        btn_GenerateReport.Text = "Generate Report"
+        btn_GenerateReport.UseVisualStyleBackColor = True
         ' 
         ' ApplicationView
         ' 
@@ -959,7 +996,7 @@ Partial Class ApplicationView
     Friend WithEvents Label10 As Label
     Friend WithEvents btn_generateCalendar As Button
     Friend WithEvents nud_teamCount As NumericUpDown
-    Friend WithEvents ListView2 As ListView
+    Friend WithEvents RacesDriverList As ListView
     Friend WithEvents Label11 As Label
     Friend WithEvents ColumnHeader1 As ColumnHeader
     Friend WithEvents nud_gpCount As NumericUpDown
@@ -982,6 +1019,11 @@ Partial Class ApplicationView
     Friend WithEvents TeamDetailsListView As ListView
     Friend WithEvents cbox_teamDetailsSeason As ComboBox
     Friend WithEvents Label15 As Label
-    Friend WithEvents resultText As Label
+    Friend WithEvents DriverColumn As ColumnHeader
+    Friend WithEvents SeasonColumn As ColumnHeader
+    Friend WithEvents ColumnHeader3 As ColumnHeader
+    Friend WithEvents btn_GetDetails As Button
+    Friend WithEvents btn_GenerateReport As Button
+    Friend WithEvents resultText As TextBox
 
 End Class
