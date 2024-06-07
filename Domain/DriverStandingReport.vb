@@ -33,7 +33,7 @@ Public Class DriverStandingsReport
             reportText &= $"Rank: {rCount} { vbTab } Driver ID: {entry.Key}, { vbTab } Points: {entry.Value}" & vbCrLf
             rCount += 1
         Next
-
+        ' /final
         Return reportText
     End Function
 
